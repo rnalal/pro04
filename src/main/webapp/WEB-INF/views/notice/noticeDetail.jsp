@@ -40,7 +40,7 @@
 		</tbody>
 	</table>
 
-	<a href="list.do">글 목록</a>
+	<a href="list.do">글 목록</a>0ㅐ  `
 	<a href="${path1 }">메인으로</a>
 </body>
 </html>
