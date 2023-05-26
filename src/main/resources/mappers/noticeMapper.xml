@@ -16,7 +16,7 @@
 		select count(*) from notice
 	</select>
 	<insert id="noticeInsert">
-		insert into notice(title, content, author) values (#{title), #{content}, #{author})
+		insert into notice(title, content, author) values (#{title}, #{content}, #{author})
 	</insert>
 	<delete id="noticeDelete">
 		delete from notice where no=#{no}

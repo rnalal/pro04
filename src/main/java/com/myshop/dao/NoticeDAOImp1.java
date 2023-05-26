@@ -38,4 +38,5 @@ public class NoticeDAOImp1 implements NoticeDAO{
 	public void noticeEdit(NoticeDTO dto) throws Exception {
 		sqlSession.update("notice.noticeEdit", dto);
 	}
+
 }
