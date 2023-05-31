@@ -9,7 +9,7 @@ import com.myshop.dao.NoticeDAO;
 import com.myshop.dto.NoticeDTO;
 
 @Service
-public class NoticeServiceImp1 implements NoticeService {
+public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired
 	public NoticeDAO noticeDao;
@@ -26,18 +26,21 @@ public class NoticeServiceImp1 implements NoticeService {
 
 	@Override
 	public void noticeInsert(NoticeDTO dto) throws Exception {
-		noticeDao.noticeInsert(dto);		
+		noticeDao.noticeInsert(dto);
 	}
 
 	@Override
 	public void noticeDelete(int no) throws Exception {
 		noticeDao.noticeDelete(no);
-		
 	}
 
 	@Override
 	public void noticeEdit(NoticeDTO dto) throws Exception {
-		noticeDao.noticeEdit(dto);		
+		noticeDao.noticeEdit(dto);
 	}
 
+	@Override
+	public void visitCount(int no) throws Exception {
+		noticeDao.visitCount(no);	
+	}
 }

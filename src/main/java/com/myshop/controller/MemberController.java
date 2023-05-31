@@ -39,19 +39,16 @@ public class MemberController {
 	@Inject
 	BCryptPasswordEncoder pwdEncoder;
 	
-	//약관 페이지 로딩
 	@GetMapping("agree.do")
 	public String getAgree(Model model) throws Exception {
 		return "member/agree";
 	}
 	
-	//회원가입 폼 로딩
 	@GetMapping("join.do")
 	public String joinForm(Model model) throws Exception {
 		return "member/memberInsert";
 	}
 	
-	//아이디 중복체크
 	@RequestMapping(value="idCheck.do", method=RequestMethod.POST)
 	public void idCheck(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
 		String id = request.getParameter("id");
@@ -70,7 +67,6 @@ public class MemberController {
 	}
 	
 	
-	//회원 가입 - 회원 가입 처리시 암호화하여 비밀번호 저장
 	@RequestMapping(value="insert.do", method = RequestMethod.POST)
 	public String memberWrite(MemberDTO member, Model model) throws Exception {
 		member.setPw(pwdEncoder.encode(member.getPw()));
@@ -79,13 +75,11 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//로그인 폼 로딩 (RequestMethod 기술하지 않으면, 기본이 GET임)
 	@RequestMapping("loginForm.do")  
 	public String memberLoginForm(Model model) throws Exception {
 		return "member/loginForm";
 	}
 	
-	//로그인 	- 컨트롤러에서 세션 처리(로그인시 저장된 비밀번호와 입력된 비밀번호를 비교 - matches)
 	@RequestMapping(value="signin.do", method = RequestMethod.POST)
 	public String memberSignin(@RequestParam String id, @RequestParam String pw, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 		session.invalidate();
@@ -93,8 +87,7 @@ public class MemberController {
 		mdto.setPw(pw);  //mdto.setPw(request.getParameter("pw"));
 		mdto.setId(id);	//mdto.setPw(request.getParameter("id"));
 		MemberDTO login = memberService.signIn(mdto);
-		boolean loginSuccess = pwdEncoder.matches(mdto.getPw(), login.getPw());
-		if(login!=null && loginSuccess) {
+		if(login!=null && login.getPw().equals(mdto.getPw())) {
 			session.setAttribute("member", login);
 			session.setAttribute("sid", id);
 			return "redirect:/";
@@ -103,13 +96,11 @@ public class MemberController {
 		}
 	} 
 	
-	//로그인 폼 로딩 (RequestMethod 기술하지 않으면, 기본이 GET임)
 	@RequestMapping("loginForm2.do")  
 	public String memberLoginForm2(Model model) throws Exception {
 		return "member/loginForm2";
 	}
 	
-	//로그인 - Service에서 세션 처리
 	@RequestMapping(value="login.do", method = RequestMethod.POST)
 	public String memberLogin(MemberDTO mdto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
 		//MemberDTO member = memberService.login(mdto);
@@ -121,13 +112,11 @@ public class MemberController {
 		}
 	}
 	
-	//로그인 폼 로딩 (RequestMethod 기술하지 않으면, 기본이 GET임)
 	@RequestMapping("loginForm3.do")  
 	public String memberLoginForm3(Model model) throws Exception {
 		return "member/loginForm3";
 	}
 	
-	//로그인 : DAO에서 처리
 	@RequestMapping(value="loginCheck.do", method = RequestMethod.POST)
 	public String memberLoginCtrl(MemberDTO mdto, RedirectAttributes rttr) throws Exception {
 		session.getAttribute("member");
@@ -146,14 +135,12 @@ public class MemberController {
 		}
 	}
 	
-	//로그아웃
 	@RequestMapping("logout.do")
 	public String memberLogout(HttpSession session) throws Exception {
 		session.invalidate();
 		return "redirect:/";
 	}
 	
-	//회원목록
 	@RequestMapping(value="list.do", method = RequestMethod.GET)
 	public String memberList(Model model) throws Exception {
 		List<MemberDTO> memberList = memberService.memberList();
@@ -161,7 +148,6 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
-	/* 관리자 회원 정보 보기 */
 	@RequestMapping(value="info.do", method = RequestMethod.GET)
 	public String getMember(@RequestParam String id, Model model) throws Exception {
 		MemberDTO member = memberService.getMember(id);
@@ -169,7 +155,6 @@ public class MemberController {
 		return "member/memberDetail";
 	}
 	
-	/* 일반회원 정보보기 */
 	@RequestMapping(value="read.do", method = RequestMethod.GET)
 	public String memberRead(Model model, HttpServletRequest request) throws Exception {
 		String id = (String) session.getAttribute("sid");
@@ -178,7 +163,6 @@ public class MemberController {
 		return "member/memberRead";
 	}
 	
-	//회원 탈퇴
 	@RequestMapping("delete.do")
 	public String memberDelete(@RequestParam String id, Model model, HttpSession session) throws Exception {
 		memberService.memberDelete(id);
@@ -186,7 +170,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//회원 정보 변경
 	@RequestMapping(value="update.do", method = RequestMethod.POST)
 	public String memberUpdate(MemberDTO mdto, Model model) throws Exception {
 		String pwd = pwdEncoder.encode(mdto.getPw());

@@ -62,6 +62,7 @@ public class MemberServiceImpl implements MemberService {
 		HttpSession session = req.getSession();
 		MemberDTO login = memberDao.login(mdto);
 		loginSuccess = pwdEncoder.matches(mdto.getPw(), login.getPw());
+		
 		if(loginSuccess && login!=null) {
 			session.setAttribute("member", login);
 			session.setAttribute("sid", mdto.getId());
