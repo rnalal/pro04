@@ -11,7 +11,7 @@
    <div class="top-bar-left" id="gnb">
    	 <!-- <button class="menu-icon" type="button" data-toggle="responsive-menu"></button> -->
      <ul class="dropdown menu" data-dropdown-menu>
-       <li class="menu-text"><a href="/" class="logo">MyShop</a></li>
+       <li class="menu-text"><a href="${path1 }/" class="logo">MyShop</a></li>
        <li><a href="#">Company</a></li>
        <li><a href="#">Product</a></li>
        <li><a href="#">Service</a></li>

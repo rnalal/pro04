@@ -81,13 +81,17 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="signin.do", method = RequestMethod.POST)
-	public String memberSignin(@RequestParam String id, @RequestParam String pw, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+	public String memberSignin(@RequestParam String id, @RequestParam String pw, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
 		session.invalidate();
 		MemberDTO mdto = new MemberDTO();
 		mdto.setPw(pw);  //mdto.setPw(request.getParameter("pw"));
 		mdto.setId(id);	//mdto.setPw(request.getParameter("id"));
 		MemberDTO login = memberService.signIn(mdto);
-		if(login!=null && login.getPw().equals(mdto.getPw())) {
+		boolean loginSuccess = false;
+		if(login!=null) {
+			loginSuccess = pwdEncoder.matches(mdto.getPw(), login.getPw());
+		}
+		if(login!=null && loginSuccess) {
 			session.setAttribute("member", login);
 			session.setAttribute("sid", id);
 			return "redirect:/";
